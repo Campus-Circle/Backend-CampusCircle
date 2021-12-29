@@ -15,7 +15,7 @@ const Find = require('./UserFind/Find');
 mongoose.connect(`${process.env.DB_URI}`);
 
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.get('/', (req, res) => {
     res.send('Hello World');
