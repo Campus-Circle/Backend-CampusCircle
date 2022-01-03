@@ -29,6 +29,7 @@ app.get('/feed/hot/:id', Auth.Validate, Feed.ShowHot);
 
 // Post
 app.post('/post/add', Auth.Validate, Post.AddPost);
+app.post('/post/dislike', Auth.Validate, Post.DislikePost);
 app.post('/post/like', Auth.Validate, Post.LikePost);
 
 // Find Users

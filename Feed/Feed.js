@@ -4,12 +4,21 @@ const Post = require('../models/Post');
 
 async function ShowNew(req,res){
     try{
-        const user = await Post.find({},null,{sort:{createdAt:-1},skip:10*(req.params.id-1),offset:2});
+        let post = await Post.find({},null,{sort:{createdAt:-1},skip:10*(req.params.id-1),offset:2});
+
+        post = post.map((item) => {
+            const isLiked = item.likes.includes(res.locals.user._id);
+            return {
+                ...item._doc,
+                isLiked: isLiked
+            };
+        });
+
 
         res.send(
             {
                 status: 1,
-                data: user
+                data: post
             }
         ).status(200);
 
@@ -25,12 +34,20 @@ async function ShowNew(req,res){
 
 async function ShowHot(req,res){
     try{
-        const user = await Post.find({},null,{sort:{Score:-1},limit:10,offset:10*req.params.id});
+        let post = await Post.find({},null,{sort:{Score:-1},limit:10,offset:10*req.params.id});
+
+        post = post.map((item) => {
+            const isLiked = item.likes.includes(res.locals.user._id);
+            return {
+                ...item._doc,
+                isLiked: isLiked
+            };
+        });
 
         res.send(
             {
                 status: 1,
-                data: user
+                data: post
             }
         ).status(200);
     }catch(err){
